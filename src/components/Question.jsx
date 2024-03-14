@@ -1,14 +1,18 @@
-import React from "react";
-import blob1 from '../assets/blob1.svg'
-import blob2 from '../assets/blob2.svg'
+import { useState, useEffect } from "react";
 
-export default function Question (){
-    return (
-        <div className="container-used p-3 bg.color-light d-flex flex-column position-relative rounded">
-            <img src={blob1} alt="blob1" className='position-absolute top-0 end-0 rounded' />
-            <p>This is question </p>
-            <img src={blob2} alt="blob2" className='position-absolute bottom-0 start-0 rounded' />
-        </div>
-    )
+export default function Question (props){
+    // const [ question, incorect_answers , correct_answer ] = results
+    
+    return (<>
+        {props.data.map((question, index) => (
+            <div key={index} className="d-flex flex-row justify-content-center">
+                <p >{question.question}</p>
+                {/* <p>{question.incorrect_answers.map((answer) => (
+                    <li>{answer}</li>
+                ))}</p> */}
+                <p>{question.correct_answer}</p>
+            </div>
+        ))}
+    </>)
+        
 }
-

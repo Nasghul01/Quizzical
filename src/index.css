@@ -12,9 +12,13 @@ body {
 
 }
 
-.container-used {
+main {
   margin: 25px;
   width: 550px;
   background-color: white;
   height: 550px;
+}
+
+.container-used {
+  background-color: #000000;
 }
