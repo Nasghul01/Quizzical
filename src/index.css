@@ -14,9 +14,9 @@ body {
 
 main {
   margin: 25px;
-  width: 550px;
+  width:600px;
   background-color: white;
-  height: 550px;
+min-height: 500px;
 }
 
 .container-used {

@@ -2,8 +2,12 @@ import { useState, useEffect, useRef } from "react";
 import { nanoid } from "nanoid";
 
 export default function Question (props){
-    const [data, setData] = useState([])
+    const [questions, setQuestions] = useState([])
     const renderAfterCalled = useRef(false)
+
+    const shuffledAnswer = (answer) => {
+        return answer.sort(() => Math.random() - 0.5)
+    }
 
     useEffect(() => {
 
@@ -13,19 +17,20 @@ export default function Question (props){
             return res.json();
         })
         .then( loadQuestions => {
-            console.log(loadQuestions.results);
             const newTrivia = []
             loadQuestions.results.forEach(question => newTrivia.push(
                 {
                     id: nanoid(),
-                    answer: shuffledAnswer([question.incorrect_answers, question.correct_answer]),
+                    question: question.question,
+                    answers: shuffledAnswer([...question.incorrect_answers,question.correct_answer]),
                     correct: question.correct_answer,
                     selected: null,
                     checked:false
                 }
             ))
-            setData(newTrivia)
+            setQuestions(newTrivia)
             console.log(newTrivia)
+            
         })
         .catch( err => {
             console.error(err);
@@ -34,14 +39,26 @@ export default function Question (props){
         renderAfterCalled.current = true;
         
     },[])
-    
-    const shuffledAnswer = (answer) => {
-        answer.sort(() => Math.random() - 0.5)
-    }
+
+
+    function handleAnswer() {
+
+    }    
 
     return (<>
-
-    <button onClick={props.handleGameClick} className="btn btn-primary">Play Again</button>
+    <div className="container d-flex flex-column  z-3 m-3">
+        {questions.map(question => 
+            <div className="container py-1" key={question.id}>
+                <p className="fw-bold">{question.question}</p>
+                <div className="d-flex flex-row gap-1 ">
+                    {question.answers.map((answer,index) => 
+                    <button key={index} className="btn btn-outline-primary rounded-4 ">{answer}</button>)}
+                </div>
+            </div>
+        )}
+        <button onClick={props.handleGameClick} className="btn btn-primary">Check Answer</button>
+    </div>
+        
     </>)
         
 }
