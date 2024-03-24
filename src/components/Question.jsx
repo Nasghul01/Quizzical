@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { nanoid } from "nanoid";
+import Answer from "./Answer";
+import { decode } from "he";
 
 export default function Question (props){
     const [questions, setQuestions] = useState([])
     const renderAfterCalled = useRef(false)
-
     const shuffledAnswer = (answer) => {
         return answer.sort(() => Math.random() - 0.5)
     }
@@ -43,20 +44,23 @@ export default function Question (props){
 
     function handleAnswer() {
 
-    }    
+    }
+
 
     return (<>
     <div className="container d-flex flex-column  z-3 m-3">
         {questions.map(question => 
             <div className="container py-1" key={question.id}>
-                <p className="fw-bold">{question.question}</p>
-                <div className="d-flex flex-row gap-1 ">
-                    {question.answers.map((answer,index) => 
-                    <button key={index} className="btn btn-outline-primary rounded-4 ">{answer}</button>)}
-                </div>
+                <p className="fw-bold">{decode(question.question)}</p>
+                <Answer
+                answers={question.answers}
+                
+                
+                />
             </div>
         )}
-        <button onClick={props.handleGameClick} className="btn btn-primary">Check Answer</button>
+        <button onClick={handleCheckAnswer}>Check</button>
+        <button onClick={props.handleGameClick} className="btn btn-primary m-3">Check Answer</button>
     </div>
         
     </>)
