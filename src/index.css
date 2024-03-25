@@ -22,3 +22,7 @@ min-height: 500px;
 .container-used {
   background-color: #000000;
 }
+
+.container {
+  margin: 0;
+}

@@ -6,10 +6,17 @@ import { decode } from "he";
 export default function Question (props){
     const [questions, setQuestions] = useState([])
     const renderAfterCalled = useRef(false)
+    const [result,setResult] = useState(false)
+    const [num, setNum] = useState(0)
     const shuffledAnswer = (answer) => {
         return answer.sort(() => Math.random() - 0.5)
     }
-
+    // const handleActive = (answer => {
+    //     setQuestions(prevQuestion => ({
+    //         ...prevQuestion,
+    //         selected: answer
+    //     }))
+    // }) 
     useEffect(() => {
 
         if (!renderAfterCalled.current) {
@@ -30,7 +37,6 @@ export default function Question (props){
                 }
             ))
             setQuestions(newTrivia)
-            console.log(newTrivia)
             
         })
         .catch( err => {
@@ -43,8 +49,25 @@ export default function Question (props){
 
 
     function handleAnswer() {
-
+        setQuestions(prevQuestion => prevQuestion.map(question => {
+            if(question.correct === question.selected){
+                setNum(prevNum => prevNum + 1)
+               return {...question, checked: true}
+               
+            }
+            else
+            return {...question, checked: false} 
+        
+        }
+            // question.correct === question.selected ? {...question, checked: true} : {...question, checked: false}
+            ))
+        setResult(true)
     }
+    const handleAnswerSelection = (answer,id) => {
+        setQuestions(prevQuestion => prevQuestion.map(question => 
+            question.id === id ? {...question, selected: answer } : question
+        ))
+      };
 
 
     return (<>
@@ -53,14 +76,25 @@ export default function Question (props){
             <div className="container py-1" key={question.id}>
                 <p className="fw-bold">{decode(question.question)}</p>
                 <Answer
+                id ={question.id}
                 answers={question.answers}
-                
-                
+                onAnswerSelected = {handleAnswerSelection}
+                checked={question.checked}
+                result={result}
                 />
+
             </div>
         )}
-        <button onClick={handleCheckAnswer}>Check</button>
-        <button onClick={props.handleGameClick} className="btn btn-primary m-3">Check Answer</button>
+
+        {result ? 
+        <p className="fw-bold">You score {num}/5 correct answers</p>
+        :
+        ''
+        }
+        
+        <button onClick={!result ? handleAnswer  : props.handleGameClick} 
+        className="btn btn-primary m-3">{ !result ?  'Check Answer'  : 'Play Again' }
+        </button>
     </div>
         
     </>)

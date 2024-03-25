@@ -5,8 +5,10 @@ export default function Answer (props){
 
     const [isActiveIndex, setIsActiveIndex] = useState(-1);
 
-    const handleClick = ((index) => {
+    const handleClick = ((answer, index) => {
         setIsActiveIndex(index);
+        props.onAnswerSelected(answer,props.id)
+        
     }) 
     return (
         <div className="d-flex flex-row gap-1 ">
@@ -14,11 +16,10 @@ export default function Answer (props){
                     <button key={index} 
                         className={`btn btn-outline-primary rounded-3 
                         ${ index === isActiveIndex ? 'active': ''}` }
-                        onClick={() => handleClick(index)}
+                        onClick={() => handleClick(answer,index)}
                         
                     >
                     {decode(answer)}
-                    
                     </button>)}
                 </div>
     )
