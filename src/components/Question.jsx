@@ -101,14 +101,16 @@ export default function Question (props){
             </div>
         )}
 
-        {result ? 
-        <p className="fw-bold">You score {num}/5 correct answers</p>:''
-        }
-        
-        <button onClick={!result ? handleAnswer  : props.handleGameClick} 
-            className="btn btn-primary m-3">
-            { !result ?  'Check Answer'  : 'Play Again' }
-        </button>
+            <div className="cointaner d-flex flex-row justify-content-center align-items-center">
+                {result ? 
+                <p className="fw-bold ">You score {num}/5 correct answers</p>:''
+                }
+            
+                <button onClick={!result ? handleAnswer  : props.handleGameClick} 
+                    className="btn btn-primary m-3">
+                    { !result ?  'Check Answer'  : 'Play Again' }
+                </button>
+            </div>
         </div>
         </>
         }
