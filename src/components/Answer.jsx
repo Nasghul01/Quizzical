@@ -14,9 +14,17 @@ export default function Answer (props){
         <div className="d-flex flex-row gap-1 ">
                     {props.answers.map((answer,index) => 
                     <button key={index} 
-                        className={`btn btn-outline-primary rounded-3 
-                        ${ index === isActiveIndex ? 'active': ''}` }
-                        onClick={() => handleClick(answer,index)}
+                        className={`btn btn-outline-primary  rounded-3
+                        ${ !props.result ?
+                            index === isActiveIndex ? 'active': ''
+                            :
+                            props.correct === answer ? 'btn-success ' : 
+                            index === isActiveIndex ? 
+                            props.checked ? '' : 'btn-danger'
+                             : ''
+                    }` }
+                        
+                         onClick={() => handleClick(answer,index)}
                         
                     >
                     {decode(answer)}
